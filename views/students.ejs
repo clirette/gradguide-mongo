@@ -1,0 +1,11 @@
+<% include ./partials/header %>
+<h1>Students</h1>
+<% students.forEach(student => { %>
+  <h3><%= student.first_name %> <%= student.last_name %></h3>
+  <ul>
+    <% student.completed_courses.forEach(course => { %>
+      <li><%= course.name %></li>
+    <% }) %>
+  </ul>
+<% }) %>
+<% include ./partials/footer %>
