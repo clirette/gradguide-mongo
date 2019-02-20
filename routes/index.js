@@ -28,7 +28,7 @@ module.exports = (app, db) => {
     //   console.log(course);
     // });
 
-    db.courses.find({code: {$regex: req.params.code+'*'}}, (err, courses) => {
+    db.courses.find({subjectCode: req.params.code}, (err, courses) => {
       res.render('courses', {
         title: 'Courses',
         curriculum: req.params.code,

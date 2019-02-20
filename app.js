@@ -5,7 +5,7 @@ const mongojs = require('mongojs');
 const cors = require('cors');
 const path = require('path');
 const db = mongojs('gradguide', ['courses', 'course_offerings', 'students', 'counselors', 'curriculum_admins']);
-const helper = require('./info');
+const helper = require('./helpers/info');
 
 const app = express();
 app.use(bodyParser.json());
