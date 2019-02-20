@@ -1,8 +1,8 @@
 <h1>Students</h1>
 <% students.forEach(student => { %>
-  <h3><%= student.first_name %> <%= student.last_name %></h3>
+  <h3><%= student.firstName %> <%= student.lastName %></h3>
   <ul>
-    <% student.completed_courses.forEach(course => { %>
+    <% student.completedCourses.forEach(course => { %>
       <li><%= course.name %></li>
     <% }) %>
   </ul>
