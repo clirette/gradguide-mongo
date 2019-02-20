@@ -1,8 +1,5 @@
-<% include ./partials/header %>
-<a href="/">Go back</a>
 <h1><%= curriculum  %> Courses</h1>
 <% courses.forEach(course => { %>
   <h3><%= course.curriculumCourseNumber %> <%= course.name %></h3>
   <p><%= course.description %></p>
 <% }) %>
-<% include ./partials/footer %>

@@ -16,7 +16,7 @@ module.exports = (app, db) => {
 
   app.get('/courses', (req, res) => {
     db.courses.find((err, courses) => {
-      res.render('courses', {
+      res.render('courseSelect', {
         title: 'Courses',
         courses: courses
       });
@@ -24,10 +24,6 @@ module.exports = (app, db) => {
   }),
 
   app.get('/courses/:code', (req, res) => {
-    // db.courses.find({code: {$regex: req.params.code+'*'}}).forEach((err, course) => {
-    //   console.log(course);
-    // });
-
     db.courses.find({subjectCode: req.params.code}, (err, courses) => {
       res.render('courses', {
         title: 'Courses',

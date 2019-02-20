@@ -8,4 +8,4 @@ const showCoursesForMajor = (e) => {
   window.location = `http://localhost:8000/courses/${majorCode.value}`;
 }
 
-dropdownSubmit.addEventListener('click', showCoursesForMajor)
+dropdownSubmit.addEventListener('click', showCoursesForMajor);
