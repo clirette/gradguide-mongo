@@ -48,7 +48,8 @@ module.exports = (app) => {
   app.post('/login', (req, res, next) => {
     passport.authenticate('local', {
       successRedirect: '/dashboard',
-      failureRedirect: '/login'
+      failureRedirect: '/login',
+      failureFlash: true
     })(req, res, next);
   });
 
@@ -78,6 +79,7 @@ module.exports = (app) => {
     console.log(errors);
     if (errors.length > 0) {
       res.render('register', {
+        errors,
         name,
         email,
         password,
@@ -107,7 +109,10 @@ module.exports = (app) => {
               if (err) throw err;
               student.password = hash;
               student.save()
-              .then(student => res.redirect('/login'))
+              .then(student => {
+                req.flash('success_msg', 'You are now registered and can log in');
+                res.redirect('/login');
+              })
               .catch(err => console.log(err));
             })
           })
