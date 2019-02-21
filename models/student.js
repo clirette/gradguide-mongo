@@ -12,7 +12,7 @@ const CompletedCoursesSchema = new mongoose.Schema({
     },
     name: {
         type: String,
-        required: true
+        //required: true
     },
     description: {
         type: String
@@ -37,6 +37,13 @@ const StudentSchema = new mongoose.Schema({
         required: true
     },
     lastName: {
+        type: String
+    },
+    email: {
+        type: String,
+        required: true
+    },
+    password: {
         type: String,
         required: true
     },
