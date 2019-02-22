@@ -27,7 +27,7 @@ module.exports = (app) => {
   }),
 
   app.get('/courses/:code', (req, res) => {
-    Course.find({'subjectCode': req.params.code}, (err, courses) => {
+    Course.find({'subjectCode': req.params.code}).sort({subjectNumber: 1}).exec((err, courses) => {
       res.render('courses', {
         title: 'Courses',
         curriculum: req.params.code,
