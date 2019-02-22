@@ -1,5 +1,6 @@
 const Course = require('../models/course');
 const Student = require('../models/student');
+const Major = require('../models/major');
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const { ensureAuthenticated } = require('../config/auth');
@@ -61,20 +62,24 @@ module.exports = (app) => {
 
   app.post('/info', ensureAuthenticated, (req, res) => {
     const { firstName, lastName, majorCode } = req.body;
-    console.log(`${firstName}\n${lastName}\n${majorCode}`);
-    console.log(req.user);
-    Student.findOne({_id: req.user._id}, (err, student) => {
+    Major.findOne({majorCode: majorCode}, (err, major) => {
       if (err) throw err;
-      if (student) {
-        student.firstName = firstName;
-        student.lastName = lastName;
-        student.majorCode = majorCode;
-        student.save()
-        .then(response => {
-          req.flash('success_msg', 'Info saved');
-          res.redirect('/dashboard');
-          req.user = student;
-        }).catch(err => console.log(err));
+      if (major) {
+        Student.findOne({_id: req.user._id}, (err, student) => {
+          if (err) throw err;
+          if (student) {
+            student.firstName = firstName;
+            student.lastName = lastName;
+            student.majorCode = majorCode;
+            student.majorName = major.majorName;
+            student.save()
+            .then(response => {
+              req.flash('success_msg', 'Info saved');
+              res.redirect('/dashboard');
+              req.user = student;
+            }).catch(err => console.log(err));
+          }
+        })
       }
     })
   })
