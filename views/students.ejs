@@ -1,3 +1,4 @@
+<% include ./partials/header %>
 <h1>Students</h1>
 <% students.forEach(student => { %>
   <h3><%= student.firstName %> <%= student.lastName %></h3>
@@ -7,3 +8,4 @@
     <% }) %>
   </ul>
 <% }) %>
+<% include ./partials/footer %>
