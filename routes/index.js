@@ -11,7 +11,7 @@ module.exports = (app) => {
     });
   }),
 
-  app.get('/students', (req, res) => {
+  app.get('/students', ensureAuthenticated, (req, res) => {
     Student.find((err, students) => {
       res.render("students", {
         title: 'Students',
@@ -20,13 +20,13 @@ module.exports = (app) => {
     });
   }),
 
-  app.get('/courses', (req, res) => {
+  app.get('/courses', ensureAuthenticated, (req, res) => {
       res.render('courseSelect', {
         title: 'Courses'
       });
   }),
 
-  app.get('/courses/:code', (req, res) => {
+  app.get('/courses/:code', ensureAuthenticated, (req, res) => {
     Course.find({'subjectCode': req.params.code}).sort({subjectNumber: 1}).exec((err, courses) => {
       res.render('courses', {
         title: 'Courses',
@@ -37,7 +37,6 @@ module.exports = (app) => {
   });
 
   app.get('/dashboard', ensureAuthenticated, (req, res) => {
-    console.log(req);
     res.render('dashboard', {
       student: req.user.firstName
     });
@@ -58,10 +57,31 @@ module.exports = (app) => {
     res.redirect('/');
   })
 
+  app.get('/info', ensureAuthenticated,  (req, res) => res.render('info', { user: req.user }));
+
+  app.post('/info', ensureAuthenticated, (req, res) => {
+    const { firstName, lastName, majorCode } = req.body;
+    console.log(`${firstName}\n${lastName}\n${majorCode}`);
+    console.log(req.user);
+    Student.findOne({_id: req.user._id}, (err, student) => {
+      if (err) throw err;
+      if (student) {
+        student.firstName = firstName;
+        student.lastName = lastName;
+        student.majorCode = majorCode;
+        student.save()
+        .then(response => {
+          req.flash('success_msg', 'Info saved');
+          res.redirect('/dashboard');
+          req.user = student;
+        }).catch(err => console.log(err));
+      }
+    })
+  })
+
   app.get('/register', (req, res) => res.render('register'));
 
   app.post('/register', (req, res) => {
-    console.log('hello');
     const { name, email, password, password2 } = req.body;
     let errors = [];
 
@@ -76,7 +96,6 @@ module.exports = (app) => {
     if (password.length < 6) {
       errors.push({msg: 'Password length must exceed 6'});
     }
-    console.log(errors);
     if (errors.length > 0) {
       res.render('register', {
         errors,
@@ -97,7 +116,6 @@ module.exports = (app) => {
             password2
           });
         } else {
-          console.log('again');
           const student = new Student({
             firstName: name,
             email,
