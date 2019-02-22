@@ -13,7 +13,7 @@ module.exports = (app) => {
   }),
 
   app.get('/students', ensureAuthenticated, (req, res) => {
-    Student.find((err, students) => {
+    Student.find({'majorCode': req.user.majorCode}, (err, students) => {
       res.render("students", {
         title: 'Students',
         students: students
@@ -61,28 +61,36 @@ module.exports = (app) => {
   app.get('/info', ensureAuthenticated,  (req, res) => res.render('info', { user: req.user }));
 
   app.post('/info', ensureAuthenticated, (req, res) => {
-    const { firstName, lastName, majorCode } = req.body;
-    Major.findOne({majorCode: majorCode}, (err, major) => {
-      if (err) throw err;
-      if (major) {
-        Student.findOne({_id: req.user._id}, (err, student) => {
+    let firstName, lastName, majorCode;
+
+    if (req.body.firstName) {
+      firstName = req.body.firstName;
+    }
+    if (req.body.lastName) {
+      lastName = req.body.lastName;
+    }
+
+    Student.findOne({_id: req.user._id}, (err, student) => {
+      if (req.body.majorCode) {
+        majorCode = req.body.majorCode;
+        Major.findOne({majorCode: majorCode}, (err, major) => {
           if (err) throw err;
-          if (student) {
-            student.firstName = firstName;
-            student.lastName = lastName;
-            student.majorCode = majorCode;
-            student.majorName = major.majorName;
-            student.save()
-            .then(response => {
-              req.flash('success_msg', 'Info saved');
-              res.redirect('/dashboard');
-              req.user = student;
-            }).catch(err => console.log(err));
-          }
+          student.majorCode = majorCode;
+          student.majorName = major.majorName;
+          console.log(major);
         })
       }
-    })
-  })
+      student.firstName = firstName;
+      student.lastName = lastName;
+      console.log(student);
+      student.save()
+      .then(response => {
+        req.flash('success_msg', 'Info saved');
+        res.redirect('/dashboard');
+        req.user = student;
+      }).catch(err => console.log(err));
+    });
+  });
 
   app.get('/register', (req, res) => res.render('register'));
 
@@ -121,8 +129,17 @@ module.exports = (app) => {
             password2
           });
         } else {
+          let firstName, lastName;
+          const names = name.split(' ');
+          if (names.length > 1) {
+            firstName = names[0];
+            lastName = names[1];
+          } else {
+            firstName = name;
+          }
           const student = new Student({
-            firstName: name,
+            firstName,
+            lastName,
             email,
             password
           });
