@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
 
 const CompletedCoursesSchema = new mongoose.Schema({
+    courseId: {
+        type: mongoose.Schema.Types.ObjectId
+    },
     degree: {
         type: String
     },
@@ -12,7 +15,7 @@ const CompletedCoursesSchema = new mongoose.Schema({
     },
     name: {
         type: String,
-        required: true
+        //required: true
     },
     description: {
         type: String
@@ -23,7 +26,7 @@ const CompletedCoursesSchema = new mongoose.Schema({
     instructor: {
         type: String
     },
-    semesterCompleted: {
+    semester: {
         type: String
     },
     grade: {
@@ -37,13 +40,17 @@ const StudentSchema = new mongoose.Schema({
         required: true
     },
     lastName: {
+        type: String
+    },
+    email: {
         type: String,
         required: true
     },
-    degree: {
-        type: String
+    password: {
+        type: String,
+        required: true
     },
-    status: {
+    classification: {
         type: String
     },
     majorName: {

@@ -1,0 +1,14 @@
+<% include ./partials/header %>
+<% include ./partials/messages %>
+<div class="courses-container">
+    <h1 class="text-center"><%= majorName %> Courses</h1>
+    <hr>
+<% courses.forEach(course => { %>
+    <div class="course" style="margin-bottom: 5vh;">
+        <h2><%= course.subjectNumber %> <%= course.name %> - <%= course.credits %> credits</h2>        
+        <p><%= course.description %></p>
+        <a href="/add-course/<%= course._id %>" class="btn btn-primary">Add Completed Course</a>
+    </div>
+<% }) %>
+</div>
+<% include ./partials/footer %>

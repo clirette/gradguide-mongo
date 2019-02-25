@@ -1,5 +1,7 @@
+<% include ./partials/header %>
 <h1><%= curriculum  %> Courses</h1>
 <% courses.forEach(course => { %>
   <h3><%= course.subjectNumber %> <%= course.name %></h3>
   <p><%= course.description %></p>
 <% }) %>
+<% include ./partials/footer %>
