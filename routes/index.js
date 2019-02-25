@@ -58,7 +58,10 @@ module.exports = (app) => {
     res.redirect('/');
   })
 
-  app.get('/info', ensureAuthenticated,  (req, res) => res.render('info', { user: req.user }));
+  app.get('/info', ensureAuthenticated,  (req, res) => {
+    console.log(req.user);
+    res.render('info', { user: req.user });
+  });
 
   app.post('/info', ensureAuthenticated, (req, res) => {
     let firstName, lastName, majorCode;
@@ -78,17 +81,26 @@ module.exports = (app) => {
           student.majorCode = majorCode;
           student.majorName = major.majorName;
           console.log(major);
+          student.firstName = firstName;
+          student.lastName = lastName;
+          console.log(student);
+          student.save()
+          .then(response => {
+            req.flash('success_msg', 'Info saved');
+            res.redirect('/dashboard');
+            req.user = student;
+          }).catch(err => console.log(err));
         })
+      } else {
+        student.firstName = firstName;
+        student.lastName = lastName;
+        student.save()
+        .then(response => {
+          req.flash('success_msg', 'Info saved');
+          res.redirect('/dashboard');
+          req.user = student;
+        }).catch(err => console.log(err));
       }
-      student.firstName = firstName;
-      student.lastName = lastName;
-      console.log(student);
-      student.save()
-      .then(response => {
-        req.flash('success_msg', 'Info saved');
-        res.redirect('/dashboard');
-        req.user = student;
-      }).catch(err => console.log(err));
     });
   });
 
