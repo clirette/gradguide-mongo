@@ -74,13 +74,16 @@ module.exports = (app) => {
   });
 
   app.post('/info', ensureAuthenticated, (req, res) => {
-    let firstName, lastName, majorCode;
+    let firstName, lastName, majorCode, classification;
 
     if (req.body.firstName) {
       firstName = req.body.firstName;
     }
     if (req.body.lastName) {
       lastName = req.body.lastName;
+    }
+    if (req.body.classification) {
+      classification = req.body.classification;
     }
 
     Student.findOne({_id: req.user._id}, (err, student) => {
@@ -92,6 +95,7 @@ module.exports = (app) => {
           student.majorName = major.majorName;
           student.firstName = firstName;
           student.lastName = lastName;
+          student.classification = classification;
           student.save()
           .then(response => {
             req.flash('success_msg', 'Info saved');
@@ -102,6 +106,7 @@ module.exports = (app) => {
       } else {
         student.firstName = firstName;
         student.lastName = lastName;
+        student.classification = classification;
         student.save()
         .then(response => {
           req.flash('success_msg', 'Info saved');

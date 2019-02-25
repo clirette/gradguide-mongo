@@ -47,10 +47,7 @@ const StudentSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    degree: {
-        type: String
-    },
-    status: {
+    classification: {
         type: String
     },
     majorName: {
