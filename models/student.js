@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
 
 const CompletedCoursesSchema = new mongoose.Schema({
+    courseId: {
+        type: mongoose.Schema.Types.ObjectId
+    },
     degree: {
         type: String
     },
@@ -23,7 +26,7 @@ const CompletedCoursesSchema = new mongoose.Schema({
     instructor: {
         type: String
     },
-    semesterCompleted: {
+    semester: {
         type: String
     },
     grade: {

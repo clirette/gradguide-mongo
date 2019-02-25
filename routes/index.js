@@ -3,6 +3,7 @@ const Student = require('../models/student');
 const Major = require('../models/major');
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
+const ObjectId = require('mongodb').ObjectID;
 const { ensureAuthenticated } = require('../config/auth');
 
 module.exports = (app) => {
@@ -21,6 +22,45 @@ module.exports = (app) => {
     });
   }),
 
+  app.get('/add-course/:id', ensureAuthenticated, (req, res) => {
+    Course.findById(req.params.id, (err, course) => {
+      res.render('add-course', {
+        course
+      });
+    })
+  })
+
+  app.post('/add-course', (req, res) => {
+    Course.findById(req.body._id, (err, course) => {
+      if (err) {
+        return res.status(400).send({msg: 'Could not find course'});
+      }
+      const completedCourse = {
+        subjectNumber: course.subjectNumber,
+        subjectCode: course.subjectCode,
+        name: course.name,
+        description: course.description,
+        credits: course.credits,
+        courseId: ObjectId(req.body._id),
+        instructor: req.body.instructor,
+        semester: req.body.semester,
+        grade: req.body.grade
+      }
+      console.log(completedCourse);
+      Student.findById(req.user._id, (err, student) => {
+        if (err) {
+          return res.status(400).send({msg: 'Could not update student'});
+        }
+        student.completedCourses.push(completedCourse);
+        student.save()
+        .then(success => {
+          req.flash('success_msg', 'Updated compeleted courses');
+          res.redirect('/major-courses')
+        }).catch(err => res.status(400).send({msg: err}));
+      });
+    });
+  });
+
   app.get('/courses', ensureAuthenticated, (req, res) => {
       res.render('courseSelect', {
         title: 'Courses'
@@ -38,14 +78,27 @@ module.exports = (app) => {
   });
 
   app.get('/major-courses', ensureAuthenticated, (req, res) => {
-    Course.find({'subjectCode': req.user.majorCode}).sort({subjectNumber: 1}).exec((err, courses) => {
-      res.render('major-courses', {
-        title: 'Courses',
-        majorCode: req.user.majorCode,
-        majorName: req.user.majorName,
-        courses: courses
+    Student.findById(req.user._id, (err, student) => {
+      Course.find({'subjectCode': req.user.majorCode}).sort({subjectNumber: 1}).exec((err, courses) => {
+        courses = courses.filter(course => {
+          let isPresent = true;
+          for (completedCourse of student.completedCourses) {
+            if (course._id.equals(completedCourse.courseId)) {
+              isPresent = false;
+              break;
+            }
+          }
+          return isPresent;
+        });
+        res.render('major-courses', {
+          title: 'Courses',
+          majorCode: req.user.majorCode,
+          majorName: req.user.majorName,
+          courses: courses
+        });
       });
-    });
+
+    })
   });
 
   app.get('/dashboard', ensureAuthenticated, (req, res) => {
