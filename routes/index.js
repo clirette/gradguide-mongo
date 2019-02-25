@@ -55,9 +55,23 @@ module.exports = (app) => {
         student.save()
         .then(success => {
           req.flash('success_msg', 'Updated compeleted courses');
-          res.redirect('/major-courses')
+          res.redirect(303, '/major-courses')
         }).catch(err => res.status(400).send({msg: err}));
       });
+    });
+  });
+
+  app.delete('/delete-course', (req, res) => {
+    Student.findById(req.user._id, (err, student) => {
+      const toDelete = student.completedCourses.findIndex(course => course.courseId.valueOf() == req.body.id);
+      if (toDelete > -1) {
+        student.completedCourses.splice(toDelete, 1);
+      }
+      student.save()
+      .then(success => {
+        req.flash('success_msg', 'Updated completed courses');
+        res.send({redirectUrl: '/completed-courses'})
+      }).catch(err => res.status(400).send({msg: err}));
     });
   });
 
@@ -100,6 +114,25 @@ module.exports = (app) => {
 
     })
   });
+
+  app.get('/completed-courses', ensureAuthenticated, (req, res) => {
+    req.user.completedCourses.forEach(course => {
+      if (course.grade === '4') {
+        course.letterGrade = 'A';
+      } else if (course.grade === '3') {
+        course.letterGrade = 'B';
+      } else if (course.grade === '2') {
+        course.letterGrade = 'C';
+      } else if (course.grade === '1') {
+        course.letterGrade = 'D';
+      } else if (course.grade === '0') {
+        course.letterGrade = 'F';
+      }
+    })
+    res.render('completed-courses', {
+      completedCourses: req.user.completedCourses
+    });
+  })
 
   app.get('/dashboard', ensureAuthenticated, (req, res) => {
     res.render('dashboard', {

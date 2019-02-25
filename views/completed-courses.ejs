@@ -1,0 +1,13 @@
+<% include ./partials/header %>
+<% include ./partials/messages %>
+<h1>Completed Courses</h1>
+<div class="courses-container">
+<% completedCourses.forEach(course => { %>
+    <div class="course">
+        <a href="/delete-course" class="delete-link" data-courseId="<%= course.courseId %>"><i class="fas fa-trash-alt" style="margin-right: 1vw;"></i></a>
+        <h4 style="display: inline-block"><%= course.subjectCode %>-<%= course.subjectNumber %> <%= course.name %> Grade: <%= course.letterGrade %></h4>
+    </div>
+<% }) %>
+</div>
+<script src="js/completed-courses.js"></script>
+<% include ./partials/footer %>
