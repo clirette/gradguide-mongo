@@ -37,6 +37,17 @@ module.exports = (app) => {
     });
   });
 
+  app.get('/major-courses', ensureAuthenticated, (req, res) => {
+    Course.find({'subjectCode': req.user.majorCode}).sort({subjectNumber: 1}).exec((err, courses) => {
+      res.render('major-courses', {
+        title: 'Courses',
+        majorCode: req.user.majorCode,
+        majorName: req.user.majorName,
+        courses: courses
+      });
+    });
+  });
+
   app.get('/dashboard', ensureAuthenticated, (req, res) => {
     res.render('dashboard', {
       student: req.user.firstName
@@ -59,7 +70,6 @@ module.exports = (app) => {
   })
 
   app.get('/info', ensureAuthenticated,  (req, res) => {
-    console.log(req.user);
     res.render('info', { user: req.user });
   });
 
@@ -80,16 +90,14 @@ module.exports = (app) => {
           if (err) throw err;
           student.majorCode = majorCode;
           student.majorName = major.majorName;
-          console.log(major);
           student.firstName = firstName;
           student.lastName = lastName;
-          console.log(student);
           student.save()
           .then(response => {
             req.flash('success_msg', 'Info saved');
             res.redirect('/dashboard');
             req.user = student;
-          }).catch(err => console.log(err));
+          }).catch(err => res.status(400).send({msg: err}));
         })
       } else {
         student.firstName = firstName;
@@ -99,7 +107,7 @@ module.exports = (app) => {
           req.flash('success_msg', 'Info saved');
           res.redirect('/dashboard');
           req.user = student;
-        }).catch(err => console.log(err));
+        }).catch(err => res.status(400).send({msg: err}));
       }
     });
   });

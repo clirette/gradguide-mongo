@@ -1,0 +1,12 @@
+<% include ./partials/header %>
+<div class="courses-container">
+    <h1 class="text-center"><%= majorName %> Courses</h1>
+    <hr>
+<% courses.forEach(course => { %>
+    <div class="course">
+        <h2><%= course.subjectNumber %> <%= course.name %> - <%= course.credits %> credits</h2>        
+        <p><%= course.description %></p>
+    </div>
+<% }) %>
+</div>
+<% include ./partials/footer %>
