@@ -2,7 +2,6 @@ const express = require('express');
 const logger = require('morgan');
 const cors = require('cors');
 const path = require('path');
-const expressLayouts = require('express-ejs-layouts');
 const passport = require('passport');
 const mongoose = require('mongoose');
 const helper = require('./helpers/info');
@@ -12,6 +11,7 @@ const session = require('express-session');
 const app = express();
 
 require('./config/passport')(passport);
+require('dotenv').config({path: 'variables.env'})
 
 app.use(express.urlencoded({extended: true}));
 
@@ -25,7 +25,7 @@ app.use(session({
 
 app.use(cors());
 
-mongoose.connect('mongodb://localhost/gradguide');
+mongoose.connect(process.env.DATABASE, {useNewUrlParser: true});
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -42,10 +42,12 @@ app.use(function(req, res, next) {
   res.locals.error_msg = req.flash('error_msg');
   res.locals.error = req.flash('error');
   next();
-})
+});
+
 
 require('./routes')(app);
 
-app.listen(8000, () => {
+const port = process.env.PORT || 8000;
+app.listen(port, () => {
   console.log('Gradguide started');
 });

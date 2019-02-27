@@ -46,7 +46,6 @@ module.exports = (app) => {
         semester: req.body.semester,
         grade: req.body.grade
       }
-      console.log(completedCourse);
       Student.findById(req.user._id, (err, student) => {
         if (err) {
           return res.status(400).send({msg: 'Could not update student'});
