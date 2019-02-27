@@ -1,6 +1,7 @@
 const express = require('express');
 const logger = require('morgan');
 const cors = require('cors');
+const routes = require('./routes');
 const path = require('path');
 const passport = require('passport');
 const mongoose = require('mongoose');
@@ -44,8 +45,7 @@ app.use(function(req, res, next) {
   next();
 });
 
-
-require('./routes')(app);
+app.use('/', routes);
 
 const port = process.env.PORT || 8000;
 app.listen(port, () => {
