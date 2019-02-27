@@ -75,5 +75,9 @@ module.exports = {
     res.render('completed-courses', {
       completedCourses: req.user.completedCourses
     });
+  },
+
+  getClassmateInfo(req, res) {
+    res.render('classmate-info');
   }
 }

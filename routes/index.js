@@ -19,6 +19,7 @@ router.get('/logout', accountController.logout);
 router.get('/dashboard', ensureAuthenticated, accountController.getDashboard);
 
 router.get('/students', ensureAuthenticated, studentController.getStudentsInMajor);
+router.get('/students/:id', ensureAuthenticated, studentController.getClassmateInfo);
 router.get('/info', ensureAuthenticated, studentController.getStudentInfo);
 router.post('/info', ensureAuthenticated, studentController.postStudentInfo);
 router.get('/completed-courses', ensureAuthenticated, studentController.getCompletedCourses);
