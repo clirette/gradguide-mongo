@@ -14,6 +14,7 @@
         <label for="majorCode">Major</label>
         <select name="majorCode" id="major-select" class="form-control">
             <option value="" disabled selected hidden><%= user.majorName ? user.majorName : 'Select a major'%></option>
+            <option value="UND">Undeclared</option>
             <option value="A&S">Arts and Sciences</option>
             <option value="AADM">Arts Administration</option>
             <option value="ACCT">Accounting</option>

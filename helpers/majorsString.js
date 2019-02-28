@@ -196,8 +196,7 @@ const majors = [{
     },{
         majorCode: 'WGS',
         majorName: 'Womens and Gender Studies'
-}];
-
-module.exports = {
-    majors
-};
+    },{
+        majorCode: 'UND',
+        majorName: 'Undeclared'
+    },]
