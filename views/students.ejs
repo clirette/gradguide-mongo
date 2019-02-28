@@ -1,5 +1,6 @@
 <% include ./partials/header %>
-<h1>Students</h1>
+<h1 class="text-center"><%- user.majorCode ? 'Students' : 'Declare a Major <a href="/info">Here</a> to View Other Students' %></h1>
+<hr>
 <% students.forEach(student => { %>
   <div class="student" style="margin-bottom: 2vh;">
     <h3><%= student.firstName %> <%= student.lastName %> - <%= student.classification ? student.classification : 'No classification' %></h3>

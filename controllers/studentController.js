@@ -7,7 +7,8 @@ module.exports = {
       students = students.filter(student => !student._id.equals(req.user._id) && student.share)
       res.render("students", {
         title: 'Students',
-        students: students
+        students: students,
+        user: req.user
       });
     });
   },

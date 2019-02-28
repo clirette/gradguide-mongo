@@ -1,6 +1,7 @@
 <% include ./partials/header %>
 <div class="header text-center">
-  <h1>Info for <%= student.firstName %> <%= student.lastName %></h1>
+  <h1><%= student.firstName %> <%= student.lastName %></h1>
+  <h3><%= student.classification ? student.classification : 'No Classification' %></h3>
   <a href="mailto:<%= student.email %>"><%= student.email %></a>
 </div>
 <hr>
