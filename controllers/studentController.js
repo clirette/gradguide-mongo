@@ -4,7 +4,7 @@ const Major = require('../models/major');
 module.exports = {
   getStudentsInMajor(req, res) {
     Student.find({'majorCode': req.user.majorCode}, (err, students) => {
-      students = students.filter(student => !student._id.equals(req.user._id))
+      students = students.filter(student => !student._id.equals(req.user._id) && student.share)
       res.render("students", {
         title: 'Students',
         students: students
@@ -83,6 +83,8 @@ module.exports = {
   },
 
   getClassmateInfo(req, res) {
-    res.render('classmate-info');
+    Student.findById(req.params.id, (err, student) => {
+      res.render('classmate-info', {student});
+    })
   }
 }

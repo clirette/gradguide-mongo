@@ -1,12 +1,9 @@
 <% include ./partials/header %>
 <h1>Students</h1>
 <% students.forEach(student => { %>
-  <h3><%= student.firstName %> <%= student.lastName %> - <%= student.classification ? student.classification : 'No classification' %></h3>
-  <ul>
-    <% student.completedCourses.forEach(course => { %>
-      <li><%= course.name %></li>
-    <% }) %>
-  </ul>
-  <a href="/students/<%= student._id %>">More info</a>
+  <div class="student" style="margin-bottom: 2vh;">
+    <h3><%= student.firstName %> <%= student.lastName %> - <%= student.classification ? student.classification : 'No classification' %></h3>
+    <a href="/students/<%= student._id %>" class="btn btn-primary">More info</a>
+  </div>
 <% }) %>
 <% include ./partials/footer %>

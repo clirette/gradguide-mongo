@@ -14,8 +14,7 @@ const CompletedCoursesSchema = new mongoose.Schema({
         type: String
     },
     name: {
-        type: String,
-        //required: true
+        type: String
     },
     description: {
         type: String

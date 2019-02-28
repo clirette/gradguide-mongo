@@ -1,3 +1,15 @@
 <% include ./partials/header %>
-<h2>Hello</h2>
+<div class="header text-center">
+  <h1>Info for <%= student.firstName %> <%= student.lastName %></h1>
+  <a href="mailto:<%= student.email %>"><%= student.email %></a>
+</div>
+<hr>
+<div class="classes">
+  <% student.completedCourses.forEach(course => { %>
+    <div class="class">
+      <h3><%= course.subjectCode %>-<%= course.subjectNumber %> <%= course.name %></h3>
+      <p><%= course.description %></p>
+    </div>
+  <% }) %>
+</div>
 <% include ./partials/footer %>
