@@ -1,7 +1,7 @@
 <% include ./partials/header %>
 <% include ./partials/messages %>
 <div class="courses-container">
-    <h1 class="text-center"><%= majorName %> Courses</h1>
+    <h1 class="text-center"><%- majorName ? 'Courses' : 'Declare a Major <a href="/info">here</a>' %></h1>
     <hr>
 <% courses.forEach(course => { %>
     <div class="course" style="margin-bottom: 5vh;">

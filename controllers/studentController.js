@@ -16,7 +16,7 @@ module.exports = {
   },
 
   postStudentInfo(req, res) {
-    let firstName, lastName, majorCode, classification;
+    let firstName, lastName, majorCode, classification, share;
     if (req.body.firstName) {
       firstName = req.body.firstName;
     }
@@ -26,7 +26,9 @@ module.exports = {
     if (req.body.classification) {
       classification = req.body.classification;
     }
-
+    if (req.body.share) {
+      share = true;
+    }
     Student.findOne({_id: req.user._id}, (err, student) => {
       if (req.body.majorCode) {
         majorCode = req.body.majorCode;
@@ -37,6 +39,7 @@ module.exports = {
           student.firstName = firstName;
           student.lastName = lastName;
           student.classification = classification;
+          student.share = share;
           student.save()
           .then(response => {
             req.flash('success_msg', 'Info saved');
@@ -48,6 +51,7 @@ module.exports = {
         student.firstName = firstName;
         student.lastName = lastName;
         student.classification = classification;
+        student.share = share;
         student.save()
         .then(response => {
           req.flash('success_msg', 'Info saved');

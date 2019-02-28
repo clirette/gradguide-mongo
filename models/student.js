@@ -31,7 +31,7 @@ const CompletedCoursesSchema = new mongoose.Schema({
     },
     grade: {
         type: String
-    }
+    },
 })
 
 const StudentSchema = new mongoose.Schema({
@@ -58,6 +58,9 @@ const StudentSchema = new mongoose.Schema({
     },
     majorCode: {
         type: String
+    },
+    share: {
+        type: Boolean
     },
     completedCourses: [CompletedCoursesSchema]
 });
