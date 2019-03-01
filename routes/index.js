@@ -4,6 +4,7 @@ const { ensureAuthenticated } = require('../config/auth');
 const accountController = require('../controllers/accountController');
 const studentController = require('../controllers/studentController');
 const courseController = require('../controllers/courseController');
+const apiController = require('../controllers/apiController');
 
 router.get('/', (req, res) => {
   res.render('index', {
@@ -31,6 +32,6 @@ router.get('/courses', ensureAuthenticated, courseController.getCourses);
 router.get('/courses/:code', ensureAuthenticated, courseController.getCoursesByCode);
 router.get('/major-courses', ensureAuthenticated, courseController.getMajorCourses);
 
-router.get('/api/student/:id', ensureAuthenticated, studentController.getStudentForPDF);
+router.get('/api/student/:id', ensureAuthenticated, apiController.getStudentForPDF);
 
 module.exports = router;
