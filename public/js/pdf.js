@@ -23,11 +23,16 @@ const createPDF = (e) => {
   .then(response => response.json())
   .then(studentInfo => {
     const { classification, completedCourses, email, firstName, lastName, majorCode, majorName } = studentInfo;
-    
+    const table = {
+      head: [['Course', 'Grade', 'Instructor']],
+      body: []
+    }
     completedCourses.forEach(course => {
       const { credits, description, grade, instructor, name, semester, subjectCode, subjectNumber } = course;
-      
+      const bodyArray = [`${subjectCode}-${subjectNumber} ${name}`, grade, instructor];
+      table.body.push(bodyArray);
     });
+    doc.autoTable(table);
     doc.save('courses.pdf');
   })
   .catch(err => console.log(err));
