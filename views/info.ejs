@@ -4,15 +4,15 @@
 <form action="/info" method="POST">
     <div class="form-group">
         <label for="firstName">First Name</label>
-        <input class="form-control" type="text" name="firstName" value='<%= user.firstName %>'>
+        <input class="form-control" type="text" name="firstName" value='<%= user.firstName %>' id="firstName"> 
     </div>
     <div class="form-group">
         <label for="lastName">Last Name</label>
-        <input type="text" class="form-control" name="lastName" value='<%= user.lastName %>'>
+        <input type="text" class="form-control" name="lastName" value='<%= user.lastName %>' id="lastName">
     </div>
     <div class="form-group">
         <label for="majorCode">Major</label>
-        <select name="majorCode" id="major-select" class="form-control">
+        <select name="majorCode" id="majorCode" class="form-control">
             <option value="" disabled selected hidden><%= user.majorName ? user.majorName : 'Select a major'%></option>
             <option value="UND">Undeclared</option>
             <option value="A&S">Arts and Sciences</option>
@@ -88,7 +88,7 @@
     </div>
     <div class="form-group">
         <label for="classification">Classification</label>
-        <select name="classification" class="form-control">
+        <select name="classification" class="form-control" id="classification">
             <option value="" disabled selected hidden><%= user.classification ? user.classification : 'Select a classification'%></option>
             <option value="Freshman">Freshman</option>
             <option value="Sophomore">Sophomore</option>
@@ -106,4 +106,5 @@
     </div>
     <button type="submit" class="btn btn-primary">Save</button>
 </form>
+<button class="btn btn-info" id="pdf">PDF</button>
 <% include ./partials/footer %>
