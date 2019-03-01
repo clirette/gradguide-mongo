@@ -28,10 +28,11 @@ const createPDF = (e) => {
       body: []
     }
     completedCourses.forEach(course => {
-      const { credits, description, grade, instructor, name, semester, subjectCode, subjectNumber } = course;
-      const bodyArray = [`${subjectCode}-${subjectNumber} ${name}`, grade, instructor];
+      const { credits, description, letterGrade, instructor, name, semester, subjectCode, subjectNumber } = course;
+      const bodyArray = [`${subjectCode}-${subjectNumber} ${name}`, letterGrade, instructor];
       table.body.push(bodyArray);
     });
+    doc.text(`Transcripts for ${firstName} ${lastName}`, 10, 10)
     doc.autoTable(table);
     doc.save('courses.pdf');
   })
