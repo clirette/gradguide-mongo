@@ -25,7 +25,18 @@ module.exports = {
         courseId: ObjectId(req.body._id),
         instructor: req.body.instructor,
         semester: req.body.semester,
-        grade: req.body.grade
+        letterGrade: req.body.letterGrade
+      }
+      if (completedCourse.letterGrade === 'A') {
+        completedCourse.grade = 4;
+      } else if (completedCourse.letterGrade === 'B') {
+        completedCourse.grade = 3;
+      } else if (completedCourse.letterGrade === 'C') {
+        completedCourse.grade = 2;
+      } else if (completedCourse.letterGrade === 'D') {
+        completedCourse.grade = 1;
+      } else if (completedCourse.letterGrade === 'F') {
+        completedCourse.grade = 0;
       }
       Student.findById(req.user._id, (err, student) => {
         if (err) {

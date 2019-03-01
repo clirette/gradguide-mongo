@@ -29,8 +29,11 @@ const CompletedCoursesSchema = new mongoose.Schema({
         type: String
     },
     grade: {
-        type: String
+        type: Number
     },
+    letterGrade: {
+        type: String
+    }
 })
 
 const StudentSchema = new mongoose.Schema({

@@ -65,19 +65,6 @@ module.exports = {
   },
 
   getCompletedCourses(req, res) {
-    req.user.completedCourses.forEach(course => {
-      if (course.grade === '4') {
-        course.letterGrade = 'A';
-      } else if (course.grade === '3') {
-        course.letterGrade = 'B';
-      } else if (course.grade === '2') {
-        course.letterGrade = 'C';
-      } else if (course.grade === '1') {
-        course.letterGrade = 'D';
-      } else if (course.grade === '0') {
-        course.letterGrade = 'F';
-      }
-    })
     res.render('completed-courses', {
       completedCourses: req.user.completedCourses
     });
