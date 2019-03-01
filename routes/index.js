@@ -31,4 +31,6 @@ router.get('/courses', ensureAuthenticated, courseController.getCourses);
 router.get('/courses/:code', ensureAuthenticated, courseController.getCoursesByCode);
 router.get('/major-courses', ensureAuthenticated, courseController.getMajorCourses);
 
+router.get('/api/student/:id', ensureAuthenticated, studentController.getStudentForPDF);
+
 module.exports = router;
