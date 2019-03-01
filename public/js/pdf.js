@@ -3,6 +3,17 @@ const doc = new jsPDF();
 const firstName = document.getElementById('firstName');
 const pdfButton = document.getElementById('pdf');
 
+/**
+ * jsPDF - Line wrapping is not enabled by default. This is
+ * acheived by doc.splitTextToSize(string, width) which returns
+ * an array of strings that are cut off at a specified width.
+ * It may be possible to keep track of y positioning by noting
+ * each array's length (where each index is a line of text) and
+ * multiplying by some constant, coordinated with the text height,
+ * to ensure correct positioning.
+ * 
+ */
+
 const createPDF = (e) => {
   // doc.text('Hello World', 10, 10)
   // doc.text(firstName.value, 10, 20);
@@ -24,7 +35,9 @@ const createPDF = (e) => {
       doc.setFontType('normal');
       const descriptionText = doc.splitTextToSize(`${description}`, 180);
       doc.text(descriptionText, 10, y+20);
-      y += 40;
+      y += (10 * (courseText.length-1 + descriptionText.length-1));
+      console.log(courseText);
+      console.log(descriptionText);
     });
     doc.save('courses.pdf');
   })
