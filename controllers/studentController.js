@@ -45,7 +45,7 @@ module.exports = {
           student.save()
           .then(response => {
             req.flash('success_msg', 'Info saved');
-            res.redirect('/dashboard');
+            res.redirect('/info');
             req.user = student;
           }).catch(err => res.status(400).send({msg: err}));
         })
@@ -57,7 +57,7 @@ module.exports = {
         student.save()
         .then(response => {
           req.flash('success_msg', 'Info saved');
-          res.redirect('/dashboard');
+          res.redirect('/info');
           req.user = student;
         }).catch(err => res.status(400).send({msg: err}));
       }

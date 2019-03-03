@@ -200,3 +200,5 @@ const majors = [{
         majorCode: 'UND',
         majorName: 'Undeclared'
     },]
+
+    module.exports = majors;
